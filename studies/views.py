@@ -1,10 +1,11 @@
 from django.db.models import Count
+from rest_framework.filters import OrderingFilter
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet, generics
-
-from studies.models import Course, Lesson
+from django_filters.rest_framework import DjangoFilterBackend
+from studies.models import Course, Lesson, Payment
 from studies.serializers import CourseSerializer, LessonSerializer, CourseDetailSerializer, CourseListSerializer, \
-    LessonDetailSerializer
+    LessonDetailSerializer, PaymentListSerializer
 
 
 class CourseViewSet(ModelViewSet):
@@ -53,5 +54,13 @@ class LessonUpdateAPIView(generics.UpdateAPIView):
 """
 class LessonDestroyAPIView(generics.DestroyAPIView):
     queryset = Lesson.objects.all()
+
+"""выводит фильтры"""
+class PaymentListAPIView(generics.ListAPIView):
+    serializer_class = PaymentListSerializer
+    queryset = Payment.objects.all()
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    filterset_fields = ('paid_course', 'paid_lesson', 'payment_method')
+    ordering_fields = ('date_payment',)
 
 

@@ -2,7 +2,8 @@ from rest_framework import serializers
 from rest_framework.fields import IntegerField, SerializerMethodField
 from rest_framework.relations import SlugRelatedField
 
-from studies.models import Course, Lesson
+from studies.models import Course, Lesson, Payment
+from users.models import User
 
 
 class CourseSerializer(serializers.ModelSerializer):
@@ -46,3 +47,21 @@ class LessonDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lesson
         fields = ('pk', 'title', 'preview', 'desc', 'link', 'course_lesson', 'count_lesson_with_course')
+
+
+
+class PaymentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Payment
+        fields = '__all__'
+
+
+class PaymentListSerializer(serializers.ModelSerializer):
+    paid_course = SlugRelatedField(slug_field='title', queryset=Course.objects.all())
+    paid_lesson = SlugRelatedField(slug_field='title', queryset=Lesson.objects.all())
+
+    class Meta:
+        model = Payment
+        fields = ('pk', 'user', 'date_payment', 'paid_course', 'paid_lesson', 'payment_amount', 'payment_method')
+
+
