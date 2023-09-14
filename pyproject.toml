@@ -8,6 +8,7 @@ packages = [{include = "hw24"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"
+django-filter = "^23.2"
 
 
 [build-system]

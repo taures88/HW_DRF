@@ -1,5 +1,7 @@
 from django.db import models
 
+from users.models import User
+
 NULLABLE = {
     'null': True,
     'blank': True
@@ -28,6 +30,7 @@ class Lesson(models.Model):
     desc = models.TextField(max_length=250, verbose_name='Описание', **NULLABLE)
     preview = models.ImageField(upload_to='courses', verbose_name='Изображение', **NULLABLE)
     link = models.URLField(verbose_name='ссылка на видео', **NULLABLE)
+    course_lesson = models.ForeignKey(Course, **NULLABLE, on_delete=models.CASCADE, verbose_name='Урок курса')
 
 
     def __str__(self):
@@ -36,3 +39,20 @@ class Lesson(models.Model):
     class Meta:
         verbose_name = 'Урок'
         verbose_name_plural = 'Уроки'
+
+
+
+class Payment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
+    date_payment = models.DateField(verbose_name='Дата оплаты')
+    paid_course = models.ForeignKey(Course, on_delete=models.CASCADE, **NULLABLE, verbose_name='Оплаченный курс')
+    paid_lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, **NULLABLE, verbose_name='Оплаченный урок')
+    payment_amount = models.PositiveIntegerField('Сумма оплаты')
+    payment_method = models.CharField(max_length=150, **NULLABLE, verbose_name='Способ оплаты')
+
+    def __str__(self):
+        return f'{self.user}: {self.paid_course} - {self.payment_amount}'
+
+    class Meta:
+        verbose_name = 'Платеж'
+        verbose_name_plural = 'Платежи'
