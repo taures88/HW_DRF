@@ -1,12 +1,24 @@
+from django.db.models import Count
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet, generics
 
 from studies.models import Course, Lesson
-from studies.serializers import CourseSerializer, LessonSerializer
+from studies.serializers import CourseSerializer, LessonSerializer, CourseDetailSerializer, CourseListSerializer, \
+    LessonDetailSerializer
 
 
 class CourseViewSet(ModelViewSet):
-    serializer_class = CourseSerializer
-    queryset = Course.objects.all()
+    serializer_class = CourseDetailSerializer
+    permission_classes = [IsAuthenticated]
+    queryset = Course.objects.annotate(lessons_count=Count('lesson'))
+    default_serializer = CourseSerializer
+    serializers = {
+        'list': CourseListSerializer,
+        'retrieve': CourseDetailSerializer,
+    }
+
+    def get_serializer_class(self):
+        return self.serializers.get(self.action, self.default_serializer)
 
 """
     создание урока
@@ -25,7 +37,7 @@ class LessonListAPIView(generics.ListAPIView):
     просмотр одного урока
 """
 class LessonRetrieveAPIView(generics.RetrieveAPIView):
-    serializer_class = LessonSerializer
+    serializer_class = LessonDetailSerializer
     queryset = Lesson.objects.all()
 
 """

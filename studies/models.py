@@ -28,6 +28,7 @@ class Lesson(models.Model):
     desc = models.TextField(max_length=250, verbose_name='Описание', **NULLABLE)
     preview = models.ImageField(upload_to='courses', verbose_name='Изображение', **NULLABLE)
     link = models.URLField(verbose_name='ссылка на видео', **NULLABLE)
+    course_lesson = models.ForeignKey(Course, **NULLABLE, on_delete=models.CASCADE, verbose_name='Урок курса')
 
 
     def __str__(self):
