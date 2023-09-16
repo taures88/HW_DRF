@@ -12,6 +12,9 @@ NOT_NULLABLE = {
     'blank': False
 }
 
+"""Класс курсов"""
+
+
 class Course(models.Model):
     title = models.CharField(max_length=35, verbose_name='Название')
     preview = models.ImageField(upload_to='courses', verbose_name='Изображение', **NULLABLE)
@@ -23,6 +26,9 @@ class Course(models.Model):
     class Meta:
         verbose_name = 'Курс'
         verbose_name_plural = 'Курсы'
+
+
+"""Класс уроков"""
 
 
 class Lesson(models.Model):
@@ -40,6 +46,8 @@ class Lesson(models.Model):
         verbose_name = 'Урок'
         verbose_name_plural = 'Уроки'
 
+
+"""Класс оплаты"""
 
 
 class Payment(models.Model):

@@ -5,11 +5,16 @@ from rest_framework.relations import SlugRelatedField
 from studies.models import Course, Lesson, Payment
 from users.models import User
 
+"""Класс сериализатор курсов"""
+
 
 class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
         fields = '__all__'
+
+
+"""Класс сериализатор курсов, вывод списка курсов"""
 
 
 class CourseListSerializer(serializers.ModelSerializer):
@@ -18,6 +23,9 @@ class CourseListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
         fields = ('pk', 'title', 'desc', 'lessons_count')
+
+
+"""Класс сериализатор курсов, информация по курсам"""
 
 
 class CourseDetailSerializer(serializers.ModelSerializer):
@@ -30,11 +38,17 @@ class CourseDetailSerializer(serializers.ModelSerializer):
         model = Course
         fields = ('pk', 'title', 'preview', 'desc', 'the_course_lessons')
 
+
+"""Класс сериализатор уроков"""
+
+
 class LessonSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lesson
         fields = '__all__'
 
+
+"""Класс сериализатор уроков, информация по урокам"""
 
 
 class LessonDetailSerializer(serializers.ModelSerializer):
@@ -48,6 +62,8 @@ class LessonDetailSerializer(serializers.ModelSerializer):
         model = Lesson
         fields = ('pk', 'title', 'preview', 'desc', 'link', 'course_lesson', 'count_lesson_with_course')
 
+
+"""Класс сериализатор оплат"""
 
 
 class PaymentSerializer(serializers.ModelSerializer):
