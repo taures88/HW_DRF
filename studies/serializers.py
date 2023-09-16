@@ -3,6 +3,7 @@ from rest_framework.fields import IntegerField, SerializerMethodField
 from rest_framework.relations import SlugRelatedField
 
 from studies.models import Course, Lesson, Payment
+from studies.validators import LinkValidator
 from users.models import User
 
 """Класс сериализатор курсов"""
@@ -45,6 +46,7 @@ class CourseDetailSerializer(serializers.ModelSerializer):
 class LessonSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lesson
+        validators = [LinkValidator(field='link')]
         fields = '__all__'
 
 
@@ -60,6 +62,7 @@ class LessonDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Lesson
+        validators = [LinkValidator(field='link')]
         fields = ('pk', 'title', 'preview', 'desc', 'link', 'course_lesson', 'count_lesson_with_course')
 
 
