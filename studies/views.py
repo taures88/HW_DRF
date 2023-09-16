@@ -6,7 +6,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from studies.models import Course, Lesson, Payment
 from studies.paginators import StudiesPaginator
 from studies.serializers import CourseSerializer, LessonSerializer, CourseDetailSerializer, CourseListSerializer, \
-    LessonDetailSerializer, PaymentListSerializer
+    LessonDetailSerializer, PaymentListSerializer, SubscriptionSerializer
 from users.permissions import IsBuyer, IsModerator
 
 
@@ -89,3 +89,19 @@ class PaymentListAPIView(generics.ListAPIView):
     filterset_fields = ('paid_course', 'paid_lesson', 'payment_method')
     ordering_fields = ('date_payment',)
     permission_classes = [IsAuthenticated]
+
+
+"""создание подписки"""
+
+
+class SubscriptionCreateAPIView(generics.CreateAPIView):
+    serializer_class = SubscriptionSerializer
+    queryset = Lesson.objects.all()
+
+
+"""удаление подписки"""
+
+
+class SubscriptionDestroyAPIView(generics.DestroyAPIView):
+    serializer_class = SubscriptionSerializer
+    queryset = Lesson.objects.all()
