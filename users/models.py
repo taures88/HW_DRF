@@ -13,9 +13,15 @@ NOT_NULLABLE = {
 }
 
 
+"""класс для определения модератора и владельца(пользователя) """
+
+
 class UserRoles(models.TextChoices):
     the_user = 'visitor', gettext_lazy('visitor')
     moderator = 'moderator', gettext_lazy('moderator')
+
+
+"""класс пользователя"""
 
 
 class User(AbstractUser):

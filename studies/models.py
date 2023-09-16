@@ -12,6 +12,9 @@ NOT_NULLABLE = {
     'blank': False
 }
 
+"""Класс курсов"""
+
+
 class Course(models.Model):
     title = models.CharField(max_length=35, verbose_name='Название')
     preview = models.ImageField(upload_to='courses', verbose_name='Изображение', **NULLABLE)
@@ -23,6 +26,9 @@ class Course(models.Model):
     class Meta:
         verbose_name = 'Курс'
         verbose_name_plural = 'Курсы'
+
+
+"""Класс уроков"""
 
 
 class Lesson(models.Model):
@@ -41,6 +47,8 @@ class Lesson(models.Model):
         verbose_name_plural = 'Уроки'
 
 
+"""Класс оплаты"""
+
 
 class Payment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
@@ -51,8 +59,24 @@ class Payment(models.Model):
     payment_method = models.CharField(max_length=150, **NULLABLE, verbose_name='Способ оплаты')
 
     def __str__(self):
-        return f'{self.user}: {self.paid_course} - {self.payment_amount}'
+        return f'{self.user} : {self.paid_course} - {self.payment_amount}'
 
     class Meta:
         verbose_name = 'Платеж'
         verbose_name_plural = 'Платежи'
+
+
+"""Класс подписки"""
+
+
+class Subscription(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='Курс')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Пользователь')
+    status_subscription = models.BooleanField(default=True, verbose_name='Статус подписки')
+
+    def __str__(self):
+        return f'{self.user} : {self.course}'
+
+    class Meta:
+        verbose_name = 'Подписка'
+        verbose_name_plural = 'Подписки'

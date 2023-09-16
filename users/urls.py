@@ -10,7 +10,7 @@ from users.views import UserListView
 app_name = UsersConfig.name
 
 urlpatterns = [
-    path('', UserListView.as_view()),
-    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('', UserListView.as_view()), # список пользователей
+    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'), # получение токена
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'), # обновление токена
 ]
