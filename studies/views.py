@@ -4,6 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet, generics
 from django_filters.rest_framework import DjangoFilterBackend
 from studies.models import Course, Lesson, Payment
+from studies.paginators import StudiesPaginator
 from studies.serializers import CourseSerializer, LessonSerializer, CourseDetailSerializer, CourseListSerializer, \
     LessonDetailSerializer, PaymentListSerializer
 from users.permissions import IsBuyer, IsModerator
@@ -14,6 +15,7 @@ class CourseViewSet(ModelViewSet):
     permission_classes = [IsAuthenticated, IsBuyer | IsModerator]
     queryset = Course.objects.annotate(lessons_count=Count('lesson'))
     default_serializer = CourseSerializer
+    pagination_class = StudiesPaginator
     serializers = {
         'list': CourseListSerializer,
         'retrieve': CourseDetailSerializer,
@@ -41,6 +43,7 @@ class LessonCreateAPIView(generics.CreateAPIView):
 class LessonListAPIView(generics.ListAPIView):
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
+    pagination_class = StudiesPaginator
 
 
 """
