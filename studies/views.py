@@ -44,6 +44,7 @@ class LessonListAPIView(generics.ListAPIView):
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
     pagination_class = StudiesPaginator
+    permission_classes = [IsAuthenticated]
 
 
 """

@@ -12,7 +12,6 @@ NOT_NULLABLE = {
     'blank': False
 }
 
-
 """класс для определения модератора и владельца(пользователя) """
 
 
@@ -33,7 +32,6 @@ class User(AbstractUser):
     country = models.CharField(max_length=100, verbose_name='Страна', **NULLABLE)
     role = models.CharField(max_length=20, **NULLABLE, choices=UserRoles.choices)
 
-
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
@@ -43,5 +41,3 @@ class User(AbstractUser):
     class Meta:
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'
-
-
