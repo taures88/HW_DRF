@@ -22,4 +22,6 @@ class IsBuyer(BasePermission):
     info = 'не владелец!'
 
     def has_object_permission(self, request, view, obj):
-        return obj.buyer == request.user or request.user.is_superuser
+        if obj.buyer == request.user or request.user.is_superuser:
+            return True
+        return False
