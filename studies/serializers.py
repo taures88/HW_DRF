@@ -3,6 +3,7 @@ from rest_framework.fields import IntegerField, SerializerMethodField
 from rest_framework.relations import SlugRelatedField
 
 from studies.models import Course, Lesson, Payment, Subscription
+from studies.services import retrieve_payment, create_payment, make_payment
 from studies.validators import LinkValidator
 from users.models import User
 
@@ -83,7 +84,57 @@ class PaymentListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Payment
-        fields = ('pk', 'user', 'date_payment', 'paid_course', 'paid_lesson', 'payment_amount', 'payment_method')
+        fields = ('__all__')
+
+    def get_payment_status(self, instance):
+        return retrieve_payment(instance.payment_intent_id)
+
+
+"""Создание оплаты"""
+
+
+class PaymentCreateSerializer(serializers.ModelSerializer):
+    def create(self, validated_data):
+        validated_data['user'] = self.context['request'].user
+        validated_data['payment_intent_id'] = create_payment(int(validated_data.get('payment_amount')))
+        payment = Payment.objects.create(**validated_data)
+        return payment
+
+    class Meta:
+        model = Payment
+        fields = "__all__"
+
+
+"""Информация об оплате(платеже)"""
+
+
+class PaymentRetrieveSerializer(serializers.ModelSerializer):
+    payment_status = serializers.SerializerMethodField()
+
+    def get_payment_status(self, instance):
+        return retrieve_payment(instance.payment_intent_id)
+
+    class Meta:
+        model = Payment
+        fields = "__all__"
+
+
+"""Обновление оплаты"""
+
+
+class PaymentUpdateSerializer(serializers.ModelSerializer):
+    def update(self, instance, validated_data):
+        payment = make_payment(instance.payment_intent_id)
+        if payment == 'succeeded':
+            instance.is_paid = True
+            instance.save()
+            return instance
+        else:
+            return instance
+
+    class Meta:
+        model = Payment
+        fields = "__all__"
 
 
 """Класс сериализатор подписки"""

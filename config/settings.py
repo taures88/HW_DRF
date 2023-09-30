@@ -35,13 +35,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    'drf_yasg',
     'rest_framework.authtoken',
     'rest_framework',
     'rest_framework_simplejwt',
     'users',
     'studies',
     'django_filters',
+
 
 ]
 
@@ -146,3 +147,5 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     )
 }
+
+STRIPE_SECRET_KEY = 'pk_test_51NvxRGHnWQsnaq8i23vabab0UrEM33jqhmXhxLijLolryD7wHrJQim0Ls1HztcFcO6xOdVOuUHfJMmGm6o0TBTTH009uFOJv27'

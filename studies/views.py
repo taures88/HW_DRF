@@ -6,7 +6,8 @@ from django_filters.rest_framework import DjangoFilterBackend
 from studies.models import Course, Lesson, Payment
 from studies.paginators import StudiesPaginator
 from studies.serializers import CourseSerializer, LessonSerializer, CourseDetailSerializer, CourseListSerializer, \
-    LessonDetailSerializer, PaymentListSerializer, SubscriptionSerializer
+    LessonDetailSerializer, PaymentListSerializer, SubscriptionSerializer, PaymentRetrieveSerializer, \
+    PaymentCreateSerializer, PaymentSerializer
 from users.permissions import IsBuyer, IsModerator
 
 
@@ -80,7 +81,7 @@ class LessonDestroyAPIView(generics.DestroyAPIView):
     permission_classes = [IsAuthenticated, IsBuyer | IsModerator]
 
 
-"""выводит фильтры"""
+"""выводит оплаты"""
 
 
 class PaymentListAPIView(generics.ListAPIView):
@@ -90,6 +91,43 @@ class PaymentListAPIView(generics.ListAPIView):
     filterset_fields = ('paid_course', 'paid_lesson', 'payment_method')
     ordering_fields = ('date_payment',)
     permission_classes = [IsAuthenticated]
+    pagination_class = StudiesPaginator
+
+
+"""детализация конкретного платежа"""
+
+
+class PaymentDetailAPIView(generics.RetrieveAPIView):
+    serializer_class = PaymentRetrieveSerializer
+    queryset = Payment.objects.all()
+    permission_classes = [IsAuthenticated, IsModerator]
+
+
+"""создание платежа"""
+
+
+class PaymentCreateAPIView(generics.CreateAPIView):
+    serializer_class = PaymentCreateSerializer
+    queryset = Payment.objects.all()
+    permission_classes = [IsAuthenticated, IsBuyer, IsModerator]
+
+
+"""обновление платежа"""
+
+
+class PaymentUpdateAPIView(generics.UpdateAPIView):
+    serializer_class = PaymentSerializer
+    queryset = Payment.objects.all()
+    permission_classes = [IsAuthenticated, IsModerator]
+
+
+"""удаление платежа"""
+
+
+class PaymentDeleteAPIView(generics.DestroyAPIView):
+    serializer_class = PaymentSerializer
+    queryset = Payment.objects.all()
+    permission_classes = [IsAuthenticated, IsModerator]
 
 
 """создание подписки"""

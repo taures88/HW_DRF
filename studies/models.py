@@ -60,6 +60,9 @@ class Payment(models.Model):
     payment_amount = models.PositiveIntegerField('Сумма оплаты')
     payment_method = models.CharField(max_length=150, **NULLABLE, verbose_name='Способ оплаты')
 
+    is_paid = models.BooleanField(default=False, verbose_name="оплачено")
+    payment_intent_id = models.CharField(default='NULL', max_length=100, verbose_name="id_платежа")
+
     def __str__(self):
         return f'{self.user} : {self.paid_course} - {self.payment_amount}'
 
