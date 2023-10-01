@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+from datetime import timedelta
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'users',
     'studies',
     'django_filters',
+    'django_celery_beat',
 
 
 ]
@@ -149,3 +150,35 @@ REST_FRAMEWORK = {
 }
 
 STRIPE_SECRET_KEY = 'pk_test_51NvxRGHnWQsnaq8i23vabab0UrEM33jqhmXhxLijLolryD7wHrJQim0Ls1HztcFcO6xOdVOuUHfJMmGm6o0TBTTH009uFOJv27'
+
+
+# URL-адрес брокера сообщений
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+
+# URL-адрес брокера результатов, также Redis
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+
+# Часовой пояс для работы Celery
+CELERY_TIMEZONE = "Europe/Moscow"
+
+# Флаг отслеживания выполнения задач
+CELERY_TASK_TRACK_STARTED = True
+
+# Максимальное время на выполнение задачи
+CELERY_TASK_TIME_LIMIT = 30 * 60
+
+
+CELERY_BEAT_SCHEDULE = {
+    'task-name': {
+        'task': 'course.tasks.check_user',
+        'schedule': timedelta(minutes=10),
+    },
+}
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.mail.ru'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'taures_88@mail.ru'
+EMAIL_HOST_PASSWORD = 'Ni8rgFwxnfQb5TASr8FG'
+EMAIL_USE_SSL = True
+EMAIL_USE_TSL = True
