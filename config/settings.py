@@ -85,8 +85,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'HW24.1',
         'USER': 'postgres',
-        'PASSWORD': '0880',
-        'HOST': 'localhost',
+        'PASSWORD': 'mysecretpassword',
+        'HOST': 'db',
         'PORT': '5432'
     }
 }
@@ -153,10 +153,10 @@ STRIPE_SECRET_KEY = 'pk_test_51NvxRGHnWQsnaq8i23vabab0UrEM33jqhmXhxLijLolryD7wHr
 
 
 # URL-адрес брокера сообщений
-CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_BROKER_URL = 'redis://redis:6379/0'
 
 # URL-адрес брокера результатов, также Redis
-CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
 
 # Часовой пояс для работы Celery
 CELERY_TIMEZONE = "Europe/Moscow"

@@ -1,11 +1,10 @@
 FROM python:3
 
-WORKDIR /project_docker/studies
+WORKDIR /app
 
 COPY ./requirements.txt .
 
-RUN pip install -r reqrequirements.txt
+RUN pip install greenlet
+RUN pip install -r requirements.txt
 
 COPY . .
-
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
