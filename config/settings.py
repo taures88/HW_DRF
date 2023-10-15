@@ -152,6 +152,8 @@ REST_FRAMEWORK = {
 STRIPE_SECRET_KEY = 'pk_test_51NvxRGHnWQsnaq8i23vabab0UrEM33jqhmXhxLijLolryD7wHrJQim0Ls1HztcFcO6xOdVOuUHfJMmGm6o0TBTTH009uFOJv27'
 
 
+ALLOWED_HOSTS = ["*"]
+
 # URL-адрес брокера сообщений
 CELERY_BROKER_URL = 'redis://redis:6379/0'
 
